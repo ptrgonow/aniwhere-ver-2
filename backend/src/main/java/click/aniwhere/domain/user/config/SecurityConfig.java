@@ -3,7 +3,9 @@ package click.aniwhere.domain.user.config;
 import click.aniwhere.domain.user.controller.UserController;
 import click.aniwhere.domain.user.repository.UserRepository;
 import click.aniwhere.domain.user.service.JoinService;
+import click.aniwhere.domain.user.service.LoginService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,8 +24,7 @@ import org.springframework.security.web.SecurityFilterChain;
  * @since 24.09.10
  * @version 1.0
  */
-
-
+@Slf4j
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -37,15 +38,12 @@ public class SecurityConfig {
      */
     private static final String[] AUTH_WHITELIST = {
 
+            "/",
             "/frontend/**",
             "/public/**",
             "/index.html",
             "/favicon.ico",
-            "/manifest.json",
-            "/logo192.png",
-            "/logo512.png",
             "/ws/**"
-
     };
 
     /**
@@ -57,10 +55,23 @@ public class SecurityConfig {
     private static final String[] USER_WHITELIST = {
 
             "/user/register",
-            "/user/login",
-            "/user/logout"
-
+            "/user/login"
     };
+
+    /**
+     * 사용자 인증 요소 접근 인가 목록
+     *
+     * @see LoginService
+     * @see UserController
+     */
+    private static final String[] USER_AUTH_WHITELIST = {
+
+            "/user/info",
+            "/user/logout"
+    };
+
+    private final SuccessHandler successHandler;
+    private final FailureHandler failureHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -71,15 +82,15 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers(AUTH_WHITELIST).permitAll()
                                 .requestMatchers(USER_WHITELIST).permitAll()
+                                .requestMatchers(USER_AUTH_WHITELIST).hasRole("USER")
                                 .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
-                        .loginPage("/login")
                         .loginProcessingUrl("/user/login")
-                        .usernameParameter("username")
-                        .passwordParameter("password")
-                        .defaultSuccessUrl("/", true)
-                        .failureUrl("/login?error=true")
+                        .usernameParameter("userId")
+                        .passwordParameter("userPwd")
+                        .successHandler(successHandler)
+                        .failureHandler(failureHandler)
                         .permitAll()
                 )
 
@@ -106,11 +117,9 @@ public class SecurityConfig {
         return http.build();
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
 }
