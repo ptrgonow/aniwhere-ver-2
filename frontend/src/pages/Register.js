@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import {handleChangeUtil, handleRegisterSubmitUtil} from '../utils/formUtils';
+import { apiBaseUrl, API_ENDPOINTS } from '../config/apiConfig';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Register.css';
 
@@ -15,32 +16,12 @@ function Register() {
         phone: ''
     });
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:8543/user/register', formData);
-            console.log(response);
-            alert('회원가입이 완료되었습니다.');
-        } catch (error) {
-            if (error.response) {
-                console.error('Error response:', error.response);
-                alert(`회원가입에 실패했습니다: ${error.response.data.message}`);
-            } else if (error.request) {
-                console.error('Error request:', error.request);
-                alert('서버로부터 응답이 없습니다.');
-            } else {
-                console.error('Error message:', error.message);
-                alert('회원가입 중 오류가 발생했습니다.');
-            }
-        }
-    }
+    const handleChange = handleChangeUtil(formData, setFormData);
+    const handleSubmit = handleRegisterSubmitUtil(
+        `${apiBaseUrl}${API_ENDPOINTS.USER_REGISTER}`, formData,
+        '회원 가입이 완료되었습니다.',
+        '회원 가입에 실패했습니다.'
+    );
 
     return (
         <div className="container">

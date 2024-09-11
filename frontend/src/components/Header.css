@@ -1,24 +1,24 @@
 a {
-    color: #000;
-    text-decoration: none;
+    color: #000 !important;
+    text-decoration: none !important;
 }
 
 a:hover {
-    text-decoration-line: underline;
-    color: #2a2828;
+    text-decoration-line: underline !important;
+    color: #2a2828 !important;
 }
 
 ul,
 ol,
 li {
-    list-style: none;
+    list-style: none !important;
     margin: 0;
     padding: 0;
     display: inline;
 }
 
 li:hover {
-    cursor: pointer;
+    cursor: pointer !important;
 }
 
 .top-nav {
