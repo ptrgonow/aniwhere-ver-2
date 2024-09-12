@@ -29,6 +29,14 @@ const router = createBrowserRouter(
                     </PrivateRoute>
                 }
             />
+            <Route
+                path=":userId"
+                element={
+                    <PrivateRoute>
+                        <Home />
+                    </PrivateRoute>
+                }
+            />
         </Route>
     )
 );

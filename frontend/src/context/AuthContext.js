@@ -8,7 +8,7 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [userName, setUserName] = useState('');
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -19,10 +19,10 @@ export const AuthProvider = ({ children }) => {
                     { withCredentials: true }
                 );
                 if (response.status === 200) {
-                    const savedUserName = localStorage.getItem('userName');
-                    if (savedUserName) {
+                    const savedUserId = localStorage.getItem('userId');
+                    if (savedUserId) {
                         setIsLoggedIn(true);
-                        setUserName(savedUserName);
+                        setUser({ id: savedUserId });
                     } else {
                         setIsLoggedIn(false);
                     }
@@ -39,23 +39,22 @@ export const AuthProvider = ({ children }) => {
         checkSession();
     }, []);
 
-
-    const login = (userName) => {
+    const login = (userId) => {
         setIsLoggedIn(true);
-        setUserName(userName);
-        localStorage.setItem('userName', userName);
-        console.log('로그인 성공:', userName);
+        setUser({ id: userId });
+        localStorage.setItem('userId', userId);
+        console.log('로그인 성공:', userId);
     };
 
     const logout = () => {
         setIsLoggedIn(false);
-        setUserName('');
-        localStorage.removeItem('userName');
+        setUser(null);
+        localStorage.removeItem('userId');
         console.log('로그아웃 성공');
     };
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, userName, login, logout, loading }}>
+        <AuthContext.Provider value={{ isLoggedIn, user, login, logout, loading }}>
             {children}
         </AuthContext.Provider>
     );

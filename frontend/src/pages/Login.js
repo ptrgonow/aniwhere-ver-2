@@ -25,9 +25,9 @@ function Login() {
                 '로그인에 실패했습니다.'
             )(e);
 
-            if (userData && userData.userName) {
-                login(userData.userName);  // 로그인 후 userName 저장
-                navigate('/');  // 홈으로 이동
+            if (userData && userData.userId) {
+                login(userData.userId);
+                navigate(`/${userData.userId}`);
             }
         } catch (error) {
             console.error('Login failed:', error);

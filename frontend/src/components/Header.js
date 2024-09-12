@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import './Header.css';
 
 function Header() {
-    const { isLoggedIn, userName, logout } = useAuth();
+    const { isLoggedIn, user, logout } = useAuth();
 
     const handleLogout = () => {
         axios.post(
@@ -32,7 +32,7 @@ function Header() {
                     {isLoggedIn ? (
                         <>
                             <li><Link to="/">홈</Link></li>
-                            <li>{userName} 님</li>
+                            <li>{user.id} 님</li>
                             <li>
                                 <button className="btn-logout" onClick={handleLogout}>로그아웃</button>
                             </li>
