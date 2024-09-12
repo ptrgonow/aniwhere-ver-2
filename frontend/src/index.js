@@ -8,17 +8,27 @@ import {
     createRoutesFromElements,
     Route,
     RouterProvider,
-} from "react-router-dom";
+} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Register from "./pages/Register";
-import Login from "./pages/Login";
 import { AuthProvider } from './context/AuthContext';
+import PrivateRoute from './context/PrivateRoute';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import Home from './pages/Home';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<App />}>
-            <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route
+                index
+                element={
+                    <PrivateRoute>
+                        <Home />
+                    </PrivateRoute>
+                }
+            />
         </Route>
     )
 );
