@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {handleChangeUtil, handleRegisterSubmitUtil} from '../utils/formUtils';
-import { apiBaseUrl, API_ENDPOINTS } from '../config/apiConfig';
+import { API_ENDPOINTS } from '../config/apiConfig';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Register.css';
 
@@ -18,7 +18,7 @@ function Register() {
 
     const handleChange = handleChangeUtil(formData, setFormData);
     const handleSubmit = handleRegisterSubmitUtil(
-        `${apiBaseUrl}${API_ENDPOINTS.USER_REGISTER}`, formData,
+        `${API_ENDPOINTS.USER_REGISTER}`, formData,
         '회원 가입이 완료되었습니다.',
         '회원 가입에 실패했습니다.'
     );

@@ -7,11 +7,14 @@ export const handleChangeUtil = (formData, setFormData) => (e) => {
     });
 };
 
-const handleSubmitRequestUtil = async (url, data, headers, successMessage, errorMessage, e) => {
+const handleSubmitRequestUtil = async (url, data, headers, successMessage, errorMessage, e, withCredentials = false) => {
     e.preventDefault();
 
     try {
-        const response = await axios.post(url, data, { headers });
+        const response = await axios.post(url, data, {
+            headers,
+            withCredentials,
+        });
         alert(successMessage);
         return response.data;
     } catch (error) {
@@ -29,6 +32,7 @@ const handleSubmitRequestUtil = async (url, data, headers, successMessage, error
     }
 };
 
+
 export const handleLoginSubmitUtil = (url, formData, successMessage, errorMessage) => async (e) => {
     const form = new FormData();
     form.append('userId', formData.userId);
@@ -37,10 +41,11 @@ export const handleLoginSubmitUtil = (url, formData, successMessage, errorMessag
     return await handleSubmitRequestUtil(
         url,
         form,
-        {'Content-Type': 'application/x-www-form-urlencoded'},
+        { 'Content-Type': 'application/x-www-form-urlencoded' },
         successMessage,
         errorMessage,
-        e
+        e,
+        true
     );
 };
 

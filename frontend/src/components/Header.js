@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { apiBaseUrl, API_ENDPOINTS } from '../config/apiConfig';
+import { API_ENDPOINTS } from '../config/apiConfig';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import './Header.css';
@@ -10,7 +10,7 @@ function Header() {
 
     const handleLogout = () => {
         axios.post(
-            `${apiBaseUrl}${API_ENDPOINTS.USER_LOGOUT}`,
+            `${API_ENDPOINTS.USER_LOGOUT}`,
             {},
             { withCredentials: true })
             .then((response) => {

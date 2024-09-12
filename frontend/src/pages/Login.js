@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { handleChangeUtil, handleLoginSubmitUtil } from '../utils/formUtils';
-import { apiBaseUrl, API_ENDPOINTS } from '../config/apiConfig';
+import { API_ENDPOINTS } from '../config/apiConfig';
 import { useAuth } from '../context/AuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -19,14 +19,15 @@ function Login() {
         e.preventDefault();
         try {
             const userData = await handleLoginSubmitUtil(
-                `${apiBaseUrl}${API_ENDPOINTS.USER_LOGIN}`, formData,
+                `${API_ENDPOINTS.USER_LOGIN}`,
+                formData,
                 '로그인이 완료되었습니다.',
                 '로그인에 실패했습니다.'
             )(e);
 
             if (userData && userData.userName) {
-                login(userData.userName);
-                navigate('/');
+                login(userData.userName);  // 로그인 후 userName 저장
+                navigate('/');  // 홈으로 이동
             }
         } catch (error) {
             console.error('Login failed:', error);
