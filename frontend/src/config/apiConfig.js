@@ -6,6 +6,6 @@ export const API_ENDPOINTS = {
     USER_LOGIN: '/user/login',
     USER_REGISTER: '/user/register',
     USER_LOGOUT: '/user/logout',
-
+    USER_SESSION_CHECK: '/user/check',
 };
 
