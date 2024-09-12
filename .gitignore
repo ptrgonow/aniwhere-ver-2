@@ -153,3 +153,4 @@ yarn-error.log*
 /backend/src/test/
 /backend/src/main/resources/application.properties
 /gitmessage.txt
+/frontend/public/favicon.png
