@@ -20,7 +20,7 @@ const handleSubmitRequestUtil = async (url, data, headers, successMessage, error
     } catch (error) {
         if (error.response) {
             console.error('Error response:', error.response);
-            alert(`${errorMessage}: ${error.response.data.message}`);
+            alert(`${errorMessage}`);
         } else if (error.request) {
             console.error('Error request:', error.request);
             alert('서버로부터 응답이 없습니다.');

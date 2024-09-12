@@ -19,13 +19,13 @@ export const AuthProvider = ({ children }) => {
     const login = (userName) => {
         setIsLoggedIn(true);
         setUserName(userName);
-        localStorage.setItem('userName', userName); // 로그인 정보 저장
+        localStorage.setItem('userName', userName);
     };
 
     const logout = () => {
         setIsLoggedIn(false);
         setUserName('');
-        localStorage.removeItem('userName'); // 로그아웃 시 정보 삭제
+        localStorage.removeItem('userName');
     };
 
     return (

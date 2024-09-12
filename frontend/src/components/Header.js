@@ -25,21 +25,23 @@ function Header() {
 
     return (
         <header className="header">
-            <nav>
+            <nav className="nav">
+               {/* <img className="logo" src="/lo2.png" alt="logo" />*/}
+                <img className="title" src="/lo1.png" alt="logo" />
                 <ul className="top-nav">
                     {isLoggedIn ? (
                         <>
                             <li><Link to="/">홈</Link></li>
-                            <li>{userName}님</li>
+                            <li>{userName} 님</li>
                             <li>
-                                <button onClick={handleLogout}>로그아웃</button>
+                                <button className="btn-logout" onClick={handleLogout}>로그아웃</button>
                             </li>
                         </>
                     ) : (
                         <>
                             <li><Link to="/">홈</Link></li>
                             <li><Link to="login">로그인</Link></li>
-                            <li><Link to="register">회원가입</Link></li>
+                            <li><Link to="register"><button className="btn-logout">회원가입</button></Link></li>
                         </>
                     )}
                 </ul>
