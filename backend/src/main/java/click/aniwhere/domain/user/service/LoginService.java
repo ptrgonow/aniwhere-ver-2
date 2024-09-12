@@ -28,10 +28,4 @@ public class LoginService implements UserDetailsService {
         log.info("사용자 찾음: {}, 역할: {}", user.getUserId(), user.getRole());
         return new Login(user.getUserId(), user.getUserPwd(), user.getRole().name());
     }
-
-    public User findByUserId(String userId) {
-        log.info("findByUserId 호출: {}", userId);
-        return userRepository.findByUserId(userId)
-                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + userId));
-    }
 }

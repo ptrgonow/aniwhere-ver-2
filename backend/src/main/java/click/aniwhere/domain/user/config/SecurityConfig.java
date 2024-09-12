@@ -70,6 +70,15 @@ public class SecurityConfig {
             "/user/logout"
     };
 
+    /**
+     * 사용자 메인 페이지 경로
+     *
+     * @see UserController
+     */
+    private static final String[] USER_MAIN_PAGE = {
+            "/user/{userId}"
+    };
+
     private final SuccessHandler successHandler;
     private final FailureHandler failureHandler;
 
@@ -83,6 +92,7 @@ public class SecurityConfig {
                                 .requestMatchers(AUTH_WHITELIST).permitAll()
                                 .requestMatchers(USER_WHITELIST).permitAll()
                                 .requestMatchers(USER_AUTH_WHITELIST).hasRole("USER")
+                                .requestMatchers(USER_MAIN_PAGE).authenticated()
                                 .anyRequest().authenticated()
                 )
                 .formLogin(formLogin -> formLogin
