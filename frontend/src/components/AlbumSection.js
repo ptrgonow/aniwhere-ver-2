@@ -6,7 +6,7 @@ import useFetchPhotos from '../hooks/useFetchPhotos';
 import './AlbumSection.css';
 
 const AlbumSection = ({ userId }) => {
-    const { photos, hasMore, loading, error, fetchPhotos } = useFetchPhotos(userId);
+    const { photos, hasMore, error, loadMorePhotos } = useFetchPhotos(userId);
 
     if (error) {
         return <Typography color="error">Error: {error}</Typography>;
@@ -16,7 +16,7 @@ const AlbumSection = ({ userId }) => {
         <div id="scrollableDiv" className="albumSection">
             <InfiniteScroll
                 dataLength={photos.length}
-                next={fetchPhotos}
+                next={loadMorePhotos}
                 hasMore={hasMore}
                 loader={<CircularProgress color="primary" />}
                 scrollableTarget="scrollableDiv"
@@ -32,7 +32,7 @@ const AlbumSection = ({ userId }) => {
                     flexWrap="wrap"
                     justifyContent="flex-start"
                     alignItems="flex-start"
-                    gap={2} // 아이템 간의 간격
+                    gap={2}
                 >
                     {photos.map(photo => (
                         <Box
