@@ -76,7 +76,8 @@ public class SecurityConfig {
      * @see UserController
      */
     private static final String[] USER_MAIN_PAGE = {
-            "/user/{userId}"
+            "/user/{userId}",
+            "/route/photos/{userId}"
     };
 
     private final SuccessHandler successHandler;
