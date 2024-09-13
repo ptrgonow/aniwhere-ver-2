@@ -8,5 +8,6 @@ export const API_ENDPOINTS = {
     USER_SESSION_CHECK: '/user/check',
     USER_MAIN: '/user/:userId',
     USER_ROUTE: '/route/photos/:userId',
+    USER_BIO: '/user/bio/:userId',
 };
 
