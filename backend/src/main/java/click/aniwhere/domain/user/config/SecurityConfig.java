@@ -4,6 +4,7 @@ import click.aniwhere.domain.user.controller.UserController;
 import click.aniwhere.domain.user.repository.UserRepository;
 import click.aniwhere.domain.user.service.JoinService;
 import click.aniwhere.domain.user.service.LoginService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -77,6 +78,7 @@ public class SecurityConfig {
      */
     private static final String[] USER_MAIN_PAGE = {
             "/user/{userId}",
+            "/user/bio/{userId}",
             "/route/photos/{userId}"
     };
 
