@@ -8,13 +8,19 @@ import {
     createRoutesFromElements,
     Route,
     RouterProvider,
+    Navigate,
 } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import PrivateRoute from './context/PrivateRoute';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Home from './pages/Home';
+
+const AuthenticatedHome = () => {
+    const { user } = useAuth();
+    return <Navigate to={`/${user.id}`} />;
+};
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -25,7 +31,7 @@ const router = createBrowserRouter(
                 index
                 element={
                     <PrivateRoute>
-                        <Home />
+                        <AuthenticatedHome />
                     </PrivateRoute>
                 }
             />
@@ -43,11 +49,9 @@ const router = createBrowserRouter(
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
-        <AuthProvider>
-            <RouterProvider router={router} />
-        </AuthProvider>
-    </React.StrictMode>
+    <AuthProvider>
+        <RouterProvider router={router} />
+    </AuthProvider>
 );
 
 reportWebVitals();
