@@ -9,6 +9,7 @@ function Home() {
     const { userId } = useParams();
     const { user } = useAuth();
     const { user: pageUser, loading } = useFetchUserData(userId || user.id);
+    const loggedInUserId = localStorage.getItem('userId');
 
     if (loading) {
         return <div>Loading...</div>;
@@ -22,7 +23,7 @@ function Home() {
 
     return (
         <div className="home">
-            <ProfileSection user={pageUser} isOwnProfile={isOwnProfile} />
+            <ProfileSection user={pageUser} loggedInUserId={loggedInUserId} />
             <AlbumSection userId={pageUser.userId} isOwnProfile={isOwnProfile} />
         </div>
     );

@@ -7,8 +7,7 @@ import axios from 'axios';
 import { API_ENDPOINTS } from '../config/apiConfig';
 import basicProfileImage from '../assets/basic_profile.png';
 
-
-const ProfileSection = React.memo(() => {
+const ProfileSection = React.memo(({ loggedInUserId }) => {
     const { userId } = useParams();
     const { user, loading, refetch } = useFetchUserData(userId);
     const { photos, loading: photosLoading } = useFetchPhotos(userId);
@@ -94,7 +93,9 @@ const ProfileSection = React.memo(() => {
                         ) : (
                             <div className="bio-display">
                                 <p>{bio || '자기소개를 입력해주세요.'}</p>
-                                <button onClick={handleEditClick}>✏️</button>
+                                {loggedInUserId === user?.userId && (
+                                    <button onClick={handleEditClick}>✏️</button>
+                                )}
                             </div>
                         )}
                         {error && <p className="error">{error}</p>}
