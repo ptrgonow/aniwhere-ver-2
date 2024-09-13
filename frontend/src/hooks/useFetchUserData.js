@@ -1,4 +1,3 @@
-// frontend/src/hooks/useFetchUserData.js
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { API_ENDPOINTS } from '../config/apiConfig';

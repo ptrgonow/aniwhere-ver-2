@@ -1,4 +1,3 @@
-// Home.js
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -23,17 +22,8 @@ function Home() {
 
     return (
         <div className="home">
-            {isOwnProfile ? (
-                <div>
-                    <ProfileSection />
-                    <AlbumSection />
-                </div>
-            ) : (
-                <div>
-                    <ProfileSection />
-                    <AlbumSection />
-                </div>
-            )}
+            <ProfileSection user={pageUser} isOwnProfile={isOwnProfile} />
+            <AlbumSection userId={pageUser.userId} isOwnProfile={isOwnProfile} />
         </div>
     );
 }
