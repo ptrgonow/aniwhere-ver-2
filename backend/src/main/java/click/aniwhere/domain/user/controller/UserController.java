@@ -14,6 +14,8 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -86,4 +88,24 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 필요");
         }
     }
+
+    /**
+     * 사용자 소개글 수정
+     *
+     * @param userId 사용자 ID
+     *               <p>- 현재 로그인한 사용자의 ID 또는 다른 사용자의 ID</p>
+     *               <p>- 현재 로그인한 사용자의 ID는 Authentication 객체에서 가져올 수 있음</p>
+     *               <p>- 다른 사용자의 ID는 URL 경로에서 가져올 수 있음</p>
+     * @param bio 사용자 소개글
+     * @return ResponseEntity<Void>
+     *              <p>- 소개글 수정 성공: HttpStatus.OK</p>
+     *              <p>- 소개글 수정 실패: HttpStatus.BAD_REQUEST</p>
+     * */
+    @PutMapping("/bio/{userId}")
+    public ResponseEntity<Void> updateBio(@PathVariable String userId, @RequestBody Map<String, String> requestBody) {
+        String bio = requestBody.get("bio");
+        userService.saveBio(userId, bio);
+        return ResponseEntity.ok().build();
+    }
+
 }

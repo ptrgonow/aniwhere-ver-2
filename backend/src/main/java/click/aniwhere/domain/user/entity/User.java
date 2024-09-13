@@ -59,6 +59,9 @@ public class User {
     @Column(name = "is_social", nullable = false)
     private boolean isSocial;
 
+    @Column(name = "bio")
+    private String bio;
+
     public static User fromDTO(UserDTO userDTO) {
         return User.builder()
                 .id(userDTO.getId())
@@ -72,6 +75,7 @@ public class User {
                 .phone(userDTO.getPhone())
                 .role(Role.ROLE_USER)
                 .isSocial(userDTO.isSocial())
+                .bio(userDTO.getBio())
                 .build();
     }
 
@@ -87,6 +91,7 @@ public class User {
                 .zipCode(zipCode)
                 .phone(phone)
                 .isSocial(isSocial)
+                .bio(bio)
                 .build();
     }
 

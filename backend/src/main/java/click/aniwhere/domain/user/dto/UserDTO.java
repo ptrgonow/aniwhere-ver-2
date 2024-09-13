@@ -19,4 +19,5 @@ public class UserDTO {
     private String zipCode;
     private String phone;
     private boolean isSocial;
+    private String bio;
 }
