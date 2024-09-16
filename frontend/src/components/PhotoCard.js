@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Card, CardMedia } from '@mui/material';
-import PhotoModal from './PhotoModal';
+import MapModal from './MapModal';
 
-const PhotoCard = ({ photo, user }) => {
+const PhotoCard = ({ route, user }) => {
     const [open, setOpen] = useState(false);
     const [comment, setComment] = useState('');
-    const [comments, setComments] = useState(photo.comments || []);
-    const [likes, setLikes] = useState(photo.likes || 0);
+    const [comments, setComments] = useState(route.comments || []);
+    const [likes, setLikes] = useState(route.likes || 0);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -37,14 +37,14 @@ const PhotoCard = ({ photo, user }) => {
                         height: '100%',
                         objectFit: 'cover',
                     }}
-                    image={photo.image}
-                    alt={photo.description}
+                    image={route.image}
+                    alt={route.description}
                 />
             </Card>
-            <PhotoModal
+            <MapModal
                 open={open}
                 handleClose={handleClose}
-                photo={photo}
+                route={route}
                 user={user}
                 comment={comment}
                 comments={comments}

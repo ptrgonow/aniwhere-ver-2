@@ -1,7 +1,10 @@
-import React from 'react';
-import { Modal, Box, Typography, TextField, Button, Avatar, IconButton, CardMedia } from '@mui/material';
-import { Favorite, ChatBubbleOutline, Send } from '@mui/icons-material';
+import React, { useEffect } from 'react';
+import { Avatar, Box, Button, IconButton, Modal, TextField, Typography } from '@mui/material';
+import { ChatBubbleOutline, Favorite, Send } from '@mui/icons-material';
 import { styled } from '@mui/system';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import useInitializeMap from '../hooks/useInitializeMap';
+import useMapboxAccessToken from '../hooks/useMapboxAccessToken';
 
 const StyledModal = styled(Modal)(() => ({
     '& .MuiBackdrop-root': {
@@ -14,7 +17,29 @@ const StyledModal = styled(Modal)(() => ({
     },
 }));
 
-const PhotoModal = ({ open, handleClose, photo, user, comment, comments, likes, handleCommentChange, handleCommentSubmit, handleLike }) => {
+const MapModal = ({ open, handleClose, route, user, comment, comments, likes, handleCommentChange, handleCommentSubmit, handleLike }) => {
+    const mapboxAccessToken = useMapboxAccessToken();
+    const mapContainer = useInitializeMap(mapboxAccessToken, open);
+
+    useEffect(() => {
+        if (open) {
+            console.log("Modal is open.");
+            if (mapContainer.current) {
+                console.log("Map container exists.");
+                try {
+                    // 지도 초기화
+                    if (mapContainer.current && mapContainer.current.resize) {
+                        mapContainer.current.resize();
+                    }
+                } catch (error) {
+                    console.error('Map initialization error:', error);
+                }
+            } else {
+                console.log("Map container is null.");
+            }
+        }
+    }, [open, mapContainer]);
+
     return (
         <StyledModal
             open={open}
@@ -40,18 +65,9 @@ const PhotoModal = ({ open, handleClose, photo, user, comment, comments, likes, 
                 }}
                 tabIndex={-1}
             >
-                {/* Left side - Image */}
+                {/* Left side - Map */}
                 <Box sx={{ width: '60%', height: '100%' }}>
-                    <CardMedia
-                        component="img"
-                        sx={{
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover',
-                        }}
-                        image={photo.image}
-                        alt={photo.description}
-                    />
+                    <div ref={mapContainer} style={{ width: '100%', height: '100%' }}></div>
                 </Box>
 
                 {/* Right side - Comments and Interactions */}
@@ -64,7 +80,7 @@ const PhotoModal = ({ open, handleClose, photo, user, comment, comments, likes, 
 
                     {/* Description */}
                     <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider' }}>
-                        <Typography variant="body1">{photo.description}</Typography>
+                        <Typography variant="body1">{route.description}</Typography>
                     </Box>
 
                     {/* Comments */}
@@ -96,7 +112,7 @@ const PhotoModal = ({ open, handleClose, photo, user, comment, comments, likes, 
                         </Box>
                         <Typography variant="body2" fontWeight="bold">{likes} likes</Typography>
                         <Typography variant="caption" color="text.secondary">
-                            {new Date(photo.date).toLocaleDateString()}
+                            {new Date(route.date).toLocaleDateString()}
                         </Typography>
                     </Box>
 
@@ -117,4 +133,4 @@ const PhotoModal = ({ open, handleClose, photo, user, comment, comments, likes, 
     );
 };
 
-export default PhotoModal;
+export default MapModal;

@@ -4,16 +4,19 @@ import { useAuth } from '../context/AuthContext';
 import ProfileSection from '../components/ProfileSection';
 import AlbumSection from '../components/AlbumSection';
 import { useFetchUserData } from '../hooks/useFetchUserData';
+import writeImage from '../assets/write.png';
 import './Home.css';
 
-function Home() {
+const Home = React.memo(() => {
     const { userId } = useParams();
     const { user } = useAuth();
     const { user: pageUser, loading } = useFetchUserData(userId || user.id);
     const loggedInUserId = localStorage.getItem('userId');
 
+    console.log(`Home 컴포넌트 렌더링: userId=${userId}, pageUser=${pageUser?.id}`);
+
     if (loading) {
-        return <div>Loading...</div>;
+        return <div>로딩 중...</div>;
     }
 
     if (!pageUser) {
@@ -24,10 +27,10 @@ function Home() {
 
     return (
         <div className="home">
-            <ProfileSection user={pageUser} loggedInUserId={loggedInUserId} />
-            <AlbumSection userId={pageUser.userId} isOwnProfile={isOwnProfile} />
+            <ProfileSection user={pageUser} loggedInUserId={loggedInUserId}/>
+            <AlbumSection userId={pageUser.userId} isOwnProfile={isOwnProfile}/>
         </div>
     );
-}
+});
 
 export default Home;

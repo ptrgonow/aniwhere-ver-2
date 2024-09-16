@@ -10,7 +10,7 @@ import basicProfileImage from '../assets/basic_profile.png';
 const ProfileSection = React.memo(({ loggedInUserId }) => {
     const { userId } = useParams();
     const { user, loading, refetch } = useFetchUserData(userId);
-    const { photos, loading: photosLoading } = useFetchPhotos(userId);
+    const { routes, loading: photosLoading } = useFetchPhotos(userId);
     const [isEditing, setIsEditing] = useState(false);
     const [bio, setBio] = useState('');
     const [error, setError] = useState('');
@@ -101,7 +101,7 @@ const ProfileSection = React.memo(({ loggedInUserId }) => {
                         {error && <p className="error">{error}</p>}
                     </div>
                     <ul className="profile-ul">
-                        <li>루트 {photos?.length || 0}</li>
+                        <li>루트 {routes?.length || 0}</li>
                         <li>팔로우 {user?.followCount || 0}</li>
                         <li>팔로워 {user?.followerCount || 0}</li>
                     </ul>

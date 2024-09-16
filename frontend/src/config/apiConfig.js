@@ -7,7 +7,11 @@ export const API_ENDPOINTS = {
     USER_LOGOUT: '/user/logout',
     USER_SESSION_CHECK: '/user/check',
     USER_MAIN: '/user/:userId',
-    USER_ROUTE: '/route/photos/:userId',
     USER_BIO: '/user/bio/:userId',
+    GET_MAPBOX_ACCESS_TOKEN: '/getMapboxAccessToken',
+    USER_ROUTE: '/route/get/:userId',
+    SAVE_ROUTE: '/route/insert/:userId',
+    UPDATE_ROUTE: '/route/update/:userId',
+    DELETE_ROUTE: '/route/delete/:userId',
+    DETAIL_ROUTE: '/route/details/:routeId',
 };
-

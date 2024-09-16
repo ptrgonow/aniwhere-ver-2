@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/apiConfig';
 
 const useFetchPhotos = (userId) => {
     const [photos, setPhotos] = useState([]);
@@ -15,10 +16,11 @@ const useFetchPhotos = (userId) => {
         setError(null);
 
         try {
-            console.log(`Fetching photos for userId: ${userId}, page: ${page}, limit: 9`);
-            const response = await axios.get(`/route/photos/${userId}`, {
-                params: { page, limit: 9, offset: (page - 1) * 9 }
-            });
+            console.log(`사용자 ID: ${userId}, 페이지: ${page}, 제한: 9로 사진을 가져오는 중`);
+            const response = await axios.get(
+                API_ENDPOINTS.USER_ROUTE.replace(':userId', userId),
+                { params: { page, limit: 9, offset: (page - 1) * 9 } }
+            );
 
             const newPhotos = response.data;
 
@@ -29,12 +31,12 @@ const useFetchPhotos = (userId) => {
                 setPage(prevPage => prevPage + 1);
             }
         } catch (err) {
-            console.error('Error fetching photos:', err);
+            console.error('사진을 가져오는 중 오류 발생:', err);
             setError(err.message);
         } finally {
             setLoading(false);
         }
-    }, [userId, page, loading, hasMore]);
+    }, [userId, page, hasMore]); // loading 제거
 
     useEffect(() => {
         setPhotos([]);
@@ -46,7 +48,7 @@ const useFetchPhotos = (userId) => {
         fetchPhotos();
     }, [fetchPhotos]);
 
-    return { photos, hasMore, loading, error, fetchPhotos };
+    return { routes: photos, hasMore, loading, error, fetchPhotos };
 };
 
 export default useFetchPhotos;

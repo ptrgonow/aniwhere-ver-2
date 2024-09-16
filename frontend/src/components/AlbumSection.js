@@ -7,7 +7,7 @@ import './AlbumSection.css';
 import basicProfileImage from '../assets/basic_profile.png';
 
 const AlbumSection = ({ userId, isOwnProfile }) => {
-    const { photos, hasMore, error, loadMorePhotos } = useFetchPhotos(userId);
+    const { routes, hasMore, error, loadMorePhotos } = useFetchPhotos(userId);
 
     if (error) {
         return <Typography color="error">Error: {error}</Typography>;
@@ -16,7 +16,7 @@ const AlbumSection = ({ userId, isOwnProfile }) => {
     return (
         <div id="scrollableDiv" className="albumSection">
             <InfiniteScroll
-                dataLength={photos.length}
+                dataLength={routes.length}
                 next={loadMorePhotos}
                 hasMore={hasMore}
                 loader={<CircularProgress color="primary" />}
@@ -28,16 +28,16 @@ const AlbumSection = ({ userId, isOwnProfile }) => {
                     gap={2}
                     sx={{ p: 2 }}
                 >
-                    {photos.map(photo => (
+                    {routes.map(route => (
                         <Box
-                            key={photo.id}
+                            key={route.id}
                             sx={{
                                 aspectRatio: '1/1',
                                 overflow: 'hidden',
                             }}
                         >
                             <PhotoCard
-                                photo={photo}
+                                route={route}
                                 user={{
                                     userId: userId,
                                     userImage: basicProfileImage
