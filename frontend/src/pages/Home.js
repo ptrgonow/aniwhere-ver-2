@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import ProfileSection from '../components/ProfileSection';
 import AlbumSection from '../components/AlbumSection';
 import { useFetchUserData } from '../hooks/useFetchUserData';
+import './Home.css';
 
 function Home() {
     const { userId } = useParams();
