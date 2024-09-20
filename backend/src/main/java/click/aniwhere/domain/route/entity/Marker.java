@@ -1,5 +1,6 @@
 package click.aniwhere.domain.route.entity;
 
+import click.aniwhere.domain.route.dto.MarkerDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -7,9 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Entity
 @Table(name = "marker")
+@Builder
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Marker {
@@ -28,12 +29,12 @@ public class Marker {
     @Column(name = "latitude", nullable = false)
     private Double latitude;
 
-    public static Marker of(Long routeId, Double longitude, Double latitude) {
-        return Marker.builder()
-                .routeId(routeId)
-                .longitude(longitude)
-                .latitude(latitude)
+    public MarkerDTO toDTO() {
+        return MarkerDTO.builder()
+                .id(this.id)
+                .routeId(this.routeId)
+                .longitude(this.longitude)
+                .latitude(this.latitude)
                 .build();
     }
-
 }
