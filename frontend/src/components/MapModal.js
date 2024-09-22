@@ -3,7 +3,7 @@ import { Avatar, Box, Button, IconButton, Modal, TextField, Typography } from '@
 import { ChatBubbleOutline, Favorite, Send } from '@mui/icons-material';
 import { styled } from '@mui/system';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import useInitializeMap from '../hooks/useInitializeMap';
+import useMapWithMarkers from '../hooks/useMapWithMarkers';
 import useMapboxAccessToken from '../hooks/useMapboxAccessToken';
 
 const StyledModal = styled(Modal)(() => ({
@@ -19,26 +19,14 @@ const StyledModal = styled(Modal)(() => ({
 
 const MapModal = ({ open, handleClose, route, user, comment, comments, likes, handleCommentChange, handleCommentSubmit, handleLike }) => {
     const mapboxAccessToken = useMapboxAccessToken();
-    const mapContainer = useInitializeMap(mapboxAccessToken, open);
+    const { mapContainer, markers, addMarker, loadMarkers } = useMapWithMarkers(mapboxAccessToken, open, user.id);
 
     useEffect(() => {
         if (open) {
-            console.log("Modal is open.");
-            if (mapContainer.current) {
-                console.log("Map container exists.");
-                try {
-                    // 지도 초기화
-                    if (mapContainer.current && mapContainer.current.resize) {
-                        mapContainer.current.resize();
-                    }
-                } catch (error) {
-                    console.error('Map initialization error:', error);
-                }
-            } else {
-                console.log("Map container is null.");
-            }
+            console.log("모달이 열렸습니다.");
+            loadMarkers(route.id);
         }
-    }, [open, mapContainer]);
+    }, [open, route.id, loadMarkers]);
 
     return (
         <StyledModal
@@ -65,12 +53,10 @@ const MapModal = ({ open, handleClose, route, user, comment, comments, likes, ha
                 }}
                 tabIndex={-1}
             >
-                {/* Left side - Map */}
                 <Box sx={{ width: '60%', height: '100%' }}>
                     <div ref={mapContainer} style={{ width: '100%', height: '100%' }}></div>
                 </Box>
 
-                {/* Right side - Comments and Interactions */}
                 <Box sx={{ width: '40%', height: '100%', display: 'flex', flexDirection: 'column' }}>
                     {/* Header */}
                     <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider', display: 'flex', alignItems: 'center' }}>
@@ -78,26 +64,19 @@ const MapModal = ({ open, handleClose, route, user, comment, comments, likes, ha
                         <Typography variant="subtitle1" sx={{ ml: 1 }}>{user.userId}</Typography>
                     </Box>
 
-                    {/* Description */}
                     <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider' }}>
                         <Typography variant="body1">{route.description}</Typography>
                     </Box>
 
-                    {/* Comments */}
                     <Box sx={{ flexGrow: 1, overflowY: 'auto', p: 2 }}>
                         {comments.map((cmt, index) => (
-                            <Box key={index} sx={{ mb: 1 }}>
-                                <Typography variant="subtitle2" component="span" fontWeight="bold">
-                                    {cmt.user}
-                                </Typography>
-                                <Typography variant="body2" component="span" sx={{ ml: 1 }}>
-                                    {cmt.text}
-                                </Typography>
+                            <Box key={index} sx={{ mb: 2 }}>
+                                <Typography variant="body2" color="text.secondary">{cmt.userId}</Typography>
+                                <Typography variant="body1">{cmt.text}</Typography>
                             </Box>
                         ))}
                     </Box>
 
-                    {/* Interactions */}
                     <Box sx={{ p: 2, borderTop: 1, borderColor: 'divider' }}>
                         <Box sx={{ display: 'flex', mb: 1 }}>
                             <IconButton onClick={handleLike}>
@@ -112,16 +91,15 @@ const MapModal = ({ open, handleClose, route, user, comment, comments, likes, ha
                         </Box>
                         <Typography variant="body2" fontWeight="bold">{likes} likes</Typography>
                         <Typography variant="caption" color="text.secondary">
-                            {new Date(route.date).toLocaleDateString()}
+                            {new Date().toLocaleDateString()}
                         </Typography>
                     </Box>
 
-                    {/* Comment Input */}
                     <Box sx={{ p: 2, display: 'flex', borderTop: 1, borderColor: 'divider' }}>
                         <TextField
                             fullWidth
-                            variant="standard"
-                            placeholder="댓글 추가..."
+                            variant="outlined"
+                            placeholder="댓글을 입력하세요..."
                             value={comment}
                             onChange={handleCommentChange}
                         />

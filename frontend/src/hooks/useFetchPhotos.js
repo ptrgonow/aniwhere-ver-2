@@ -16,7 +16,7 @@ const useFetchPhotos = (userId) => {
         setError(null);
 
         try {
-            console.log(`사용자 ID: ${userId}, 페이지: ${page}, 제한: 9로 사진을 가져오는 중`);
+            console.log(`사용자 ID: ${userId}, 페이지: ${page}, 제한: 9로 사진을 가져 오는 중`);
             const response = await axios.get(
                 API_ENDPOINTS.USER_ROUTE.replace(':userId', userId),
                 { params: { page, limit: 9, offset: (page - 1) * 9 } }
@@ -36,7 +36,7 @@ const useFetchPhotos = (userId) => {
         } finally {
             setLoading(false);
         }
-    }, [userId, page, hasMore]); // loading 제거
+    }, [userId, page, hasMore, loading]);
 
     useEffect(() => {
         setPhotos([]);
